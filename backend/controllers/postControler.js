@@ -144,9 +144,9 @@ const replyToPostPage =  async(req,res)=>{
 
 const getFeedPosts = async(req,res)=>{
     try {
-        // if (!req.user) {
-        //     return res.status(401).json({ message: "Unauthorized" });
-        // }
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
         const userId = req.user.id;
         const user = await User.findById(userId);
         if(!user){

@@ -19,13 +19,14 @@ const PostPage = () => {
   const {user,loading} = useGetUserProfile();
   const showToast = useShowToast();
   const [posts,setPosts] = useRecoilState(postAtom)
+  
   const currentUser = useRecoilValue(userAtom)
 
   const {pid} = useParams();
 
   const navigate = useNavigate();
 
-  const currentPost = posts[0]
+  const currentPost = posts?.[0]
 
   const handleDeletePost = async()=>{
     try {
@@ -52,12 +53,15 @@ const PostPage = () => {
       setPosts([])
 
       try {
+        console.log("sent")
         const res = await fetch(`/api/posts/${pid}`);
+        console.log(pid)
         const data = await res.json();
         if(data.error){
           showToast("Error",data.error,"error")
           return;
         }
+        console.log(data)
         setPosts([data]);
 
       } catch (error) {

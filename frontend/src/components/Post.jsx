@@ -19,7 +19,7 @@ const Post = ({ post, postedBy }) => {
     const navigate = useNavigate();
     const toast = useToast();
     const showToast = useShowToast();
-    const [user,setUser] = useRecoilState(userAtom);
+    const [user,setUser] = useState(null);
     const [loading,setLoading] = useState(true)
 
 
@@ -27,8 +27,9 @@ const Post = ({ post, postedBy }) => {
     useEffect(() => {
         const getUser = async () => {
             setLoading(true)
+            setUser(null)
             try {
-                if (!user) return;                
+                if (!currentUser) return;                
                 const res = await fetch(`/api/users/profile/${postedBy}`);
                 const data = await res.json()
     
@@ -36,7 +37,7 @@ const Post = ({ post, postedBy }) => {
                     showToast("Error", data.error.message || "Error fetching user data", "error");
                     return;
                 }
-                
+                // console.log(data)
                 setUser(data);
                 // showToast("Success", "User data retrieved", "success");
     
@@ -50,7 +51,7 @@ const Post = ({ post, postedBy }) => {
         };
     
         getUser();
-    }, [postedBy, showToast]);
+    }, [showToast,setUser]);
     
 
     const handleDeletePost = async(e)=>{
@@ -92,14 +93,14 @@ const Post = ({ post, postedBy }) => {
 
         <Flex gap={3} mb={4} py={5}>
             <Flex flexDirection={'column'} alignItems={'center'}>
-                <Avatar name={user.name} onClick={(e)=> {
+                <Avatar name={user.name} isLoading={loading} onClick={(e)=> {
                     e.preventDefault()
                     navigate(`/${user.username}`)
                 }}  src={user?.profilePic} size={'md'} />
                 <Box w={'1px'} h={'full'} bg={'gray.light'} my={2}></Box>
                 <Box position={'relative'} w={'full'}>
 
-                    {post.replies.length === 0 && <Text textAlign={'center'}>😥</Text>}
+                    {post?.replies?.length === 0 && <Text textAlign={'center'}>😥</Text>}
 
                     {post.replies[0] &&(
                         <Avatar

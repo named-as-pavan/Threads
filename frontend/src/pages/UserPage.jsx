@@ -35,6 +35,7 @@ const UserPage = () => {
 
       } catch (error) {
         showToast("Error",error.message,'error')
+        setPosts([])
       }
       finally{
         setFetchingPosts(false)
@@ -42,7 +43,7 @@ const UserPage = () => {
     }
     getPosts();
     
-  }, [username,showToast,user]);
+  }, [username,showToast,user,setPosts]);
 
 
 
@@ -64,7 +65,7 @@ const UserPage = () => {
     <>
     <UserHeader user={user}/>
 
-    {!fetchingPosts && posts.length === 0 && <h1>0 POSTS</h1>}
+    {fetchingPosts && posts.length === 0 && <h1>0 POSTS</h1>}
 
     {loading && fetchingPosts && (
       <Flex justifyContent={'center'} my={12}>

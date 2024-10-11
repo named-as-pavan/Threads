@@ -34,8 +34,9 @@ const MessageContainer = () => {
             if(selectedConversation._id === message.conversationId){
             setMessages((prevMessages)=> [...prevMessages, message])
             }
-            if(!document.hasFocus){
+            if(!document.hasFocus()){
                 const sound = new Audio(messageSound);
+                // sound.preload='auto'
                 sound.play();
             }
         setConversations((prev) => {

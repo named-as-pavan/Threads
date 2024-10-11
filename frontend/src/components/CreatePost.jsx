@@ -57,6 +57,9 @@ const CreatePost = () => {
     }
 
     const handleCreatePost = async ()=>{
+        if(postText == "" || null){
+            return showToast("Error","Please Enter some description or text","error")
+        }
         setLoading(true)
         try {
             
@@ -67,8 +70,9 @@ const CreatePost = () => {
                 },
                 body: JSON.stringify({postedBy:user._id, text:postText, img:imgUrl})
             })
+            console.log({ postedBy: user._id, text: postText, img: imgUrl });
     
-            const data = await res.json();
+            const data = await res.json()
     
             if(data.error){
                 showToast("Error",data.error,"error")
@@ -77,7 +81,6 @@ const CreatePost = () => {
             showToast("Success","Post Created successfully","success")
             if(username === user.username){
                 setPosts([data,...posts]);
-                console.log("got it")
             }
             onClose();
             setPostText("")

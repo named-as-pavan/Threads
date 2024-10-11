@@ -5,8 +5,8 @@ import useShowToast from './useShowToast';
 
 const useLogout = () => {
 
-    const setUser = useSetRecoilState(userAtom);
     const  showToast = useShowToast();
+    const setUser = useSetRecoilState(userAtom);
     const Logout = async()=>{
         try {
             const res = await fetch("/api/users/logout",{

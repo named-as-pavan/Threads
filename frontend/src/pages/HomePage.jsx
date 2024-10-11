@@ -57,7 +57,7 @@ const HomePage = () => {
              <h1>Follow some users to see their feed</h1>)
              }
 
-{posts.map((post) => (
+{!loading && posts.map((post) => (
     <Post key={post._id} post={post} postedBy={post.postedBy} />
 ))}
         </Box>
