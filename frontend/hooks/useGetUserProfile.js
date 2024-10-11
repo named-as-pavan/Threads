@@ -13,8 +13,9 @@ const useGetUserProfile = () => {
 
 
         const getUser = async () => {
-
-            try {
+          
+          try {
+              setLoading(true)
               const res = await fetch(`/api/users/profile/${username}`)
               const data = await res.json()
               

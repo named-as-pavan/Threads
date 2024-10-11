@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Image, Spinner, Text, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,33 +19,39 @@ const Post = ({ post, postedBy }) => {
     const navigate = useNavigate();
     const toast = useToast();
     const showToast = useShowToast();
-    const [user,setUser] = useState(null);
+    const [user,setUser] = useRecoilState(userAtom);
+    const [loading,setLoading] = useState(true)
 
 
     // Fetching post details to display
     useEffect(() => {
-
         const getUser = async () => {
+            setLoading(true)
             try {
-                if(!user) return;
-                const res = await fetch(`/api/users/profile/${postedBy}`)
-                const data = await res.json();
-
-
+                if (!user) return;                
+                const res = await fetch(`/api/users/profile/${postedBy}`);
+                const data = await res.json()
+    
                 if (data.error) {
-                    showToast("Error", error.message, "error")
-                    return
+                    showToast("Error", data.error.message || "Error fetching user data", "error");
+                    return;
                 }
-                setUser(data)
-
-
+                
+                setUser(data);
+                // showToast("Success", "User data retrieved", "success");
+    
             } catch (error) {
-                showToast("Error", error.message, "error")
-                setUser(null)
-            };
-        }
+                showToast("Error", error.message || "Error occurred", "error");
+                setUser(null);
+            }
+            finally{
+                setLoading(false)
+            }
+        };
+    
         getUser();
-    }, [postedBy,showToast]);
+    }, [postedBy, showToast]);
+    
 
     const handleDeletePost = async(e)=>{
         e.preventDefault();
@@ -81,6 +87,7 @@ const Post = ({ post, postedBy }) => {
     if(!user) return null
 
     return (
+        <Box>
 
 
         <Flex gap={3} mb={4} py={5}>
@@ -185,7 +192,7 @@ const Post = ({ post, postedBy }) => {
                 </Flex>
             </Flex>
         </Flex>
-        
+        </Box>
 
     );
 };

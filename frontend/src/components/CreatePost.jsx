@@ -77,6 +77,7 @@ const CreatePost = () => {
             showToast("Success","Post Created successfully","success")
             if(username === user.username){
                 setPosts([data,...posts]);
+                console.log("got it")
             }
             onClose();
             setPostText("")

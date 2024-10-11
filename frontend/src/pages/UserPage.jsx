@@ -42,7 +42,7 @@ const UserPage = () => {
     }
     getPosts();
     
-  }, [username,showToast,setPosts,user]);
+  }, [username,showToast,user]);
 
 
 
@@ -66,7 +66,7 @@ const UserPage = () => {
 
     {!fetchingPosts && posts.length === 0 && <h1>0 POSTS</h1>}
 
-    {fetchingPosts && (
+    {loading && fetchingPosts && (
       <Flex justifyContent={'center'} my={12}>
 
       <Spinner size={"xl"}/>

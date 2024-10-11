@@ -37,7 +37,7 @@ const Actions = ({post}) => {
     setIsReplying(true)
 
     try {
-      const res = await fetch("/api/posts/reply/" + post?._id,{
+      const res = await fetch(`/api/posts/reply/${post?._id}`,{
         method:"PUT",
         headers:{
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const Actions = ({post}) => {
 
     try {
 
-      const res = await fetch("/api/posts/likes/" + post?._id,{
+      const res = await fetch(`/api/posts/likes/${post?._id}`,{
         method: "PUT" ,
         headers:{
           "Content-Type":'application/json'
